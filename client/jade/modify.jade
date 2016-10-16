@@ -2,13 +2,13 @@ doctype html
 html
   head
   body
-    form(method='POST', action='/crearEstacion')
+    form(method='PUT', action='/modificarEstacion')
       label nombre
       input(type='text', name='nombre')
       label latitud
       input(type='text', name='latitud')
       label longitud
       input(type='text', name='longitud')
-      label userId
+      label idUsuario
       input(type='text', name='userId')
       button(type='submit') Enviar

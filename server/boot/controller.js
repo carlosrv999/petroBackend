@@ -35,6 +35,8 @@ module.exports = function(app){
 
 	})
 
+
+
 	router.get('/borrarRegistro', function(req,res){
 		var id = req.query.idestacion;
 		Estacion.destroyById(id, function(err){
@@ -45,6 +47,16 @@ module.exports = function(app){
 			
 		})
 	})	
+
+
+
+	router.get('/borrarTodaEstacion', function(req,res){
+		Estacion.destroyAll();
+		return res.json({
+			data: 'registros eliminados'
+		});
+
+	})
 
 	router.get('/unaestacion',function(req,res){
 		var id = req.query.culo;
@@ -61,6 +73,8 @@ module.exports = function(app){
 	router.get('/crearEstacion',function(req,res){
 		return res.render('index');
 	})
+
+
 
 	router.post('/crearEstacion',function(req,res){
 		var nombre= req.body.nombre;
@@ -84,6 +98,8 @@ module.exports = function(app){
 
 	})
 
+
+
 	router.post('/crearUsuario',function(req,res){
 		var username = req.body.username;
 		var password = req.body.password;
@@ -99,6 +115,8 @@ module.exports = function(app){
 
 	})
 
+
+
 	router.get('/usuarioConEstacion',function(req,res){
 		var idUsuario = req.query.userId;
 
@@ -110,6 +128,35 @@ module.exports = function(app){
 		})
 
 	})
+
+	router.get('/usuarios', function(req,res){
+		Usuario.find({}, function(err, objetos){
+			if(err) {
+				return console.log("error en buscar objetos : ",err);
+			}else{
+				return res.json(objetos);	
+			}
+			
+		})
+	})
+
+	router.get('/usuarioId', function(req,res){
+		var idUsuario = req.query.userId;
+		Usuario.findById(idUsuario, function(err, obj){
+			if(err) return console.log("error en usuario", err);
+			return res.json(obj);
+		})
+	})
+
+
+	router.get('/borrarTodoUsuario', function(req,res){
+		Usuario.destroyAll();
+		return res.json({
+			data: 'registros eliminados'
+		});
+
+	})
+
 
 	/*router.post('/crearProducto',function(req,res){
 		var nombre = req.body.nombre;

@@ -1,28 +1,23 @@
 {
-  "name": "Estacion",
+  "name": "Usuario",
   "base": "PersistedModel",
   "idInjection": true,
   "options": {
     "validateUpsert": true
   },
   "properties": {
-    "nombre": {
+    "username": {
       "type": "string"
     },
-    "geoPoint": {
-      "type": "geopoint"
+    "password": {
+      "type": "string"
     }
   },
   "validations": [],
   "relations": {
-    "productos": {
+    "estacions": {
       "type": "hasMany",
-      "model": "producto",
-      "foreignKey": "idEstacion"
-    },
-    "usuario": {
-      "type": "belongsTo",
-      "model": "Usuario",
+      "model": "Estacion",
       "foreignKey": "userId"
     }
   },

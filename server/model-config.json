@@ -16,5 +16,13 @@
   "Estacion": {
     "dataSource": "mongoDb",
     "public": true
+  },
+  "producto": {
+    "dataSource": "mongoDb",
+    "public": true
+  },
+  "Usuario": {
+    "dataSource": "mongoDb",
+    "public": true
   }
 }

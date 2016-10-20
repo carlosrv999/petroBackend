@@ -1,14 +1,16 @@
 doctype html
 html
   head
+    script(src='http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js')
   body
-    form(method='PUT', action='/modificarEstacion')
+    form(method='POST', action='/auth/modificarEstacion/modificar')
       label nombre
       input(type='text', name='nombre')
       label latitud
       input(type='text', name='latitud')
       label longitud
       input(type='text', name='longitud')
-      label idUsuario
-      input(type='text', name='userId')
       button(type='submit') Enviar
+      .ui.error.message
+      if message!=undefined
+      input(type='hidden' name='idEstacion' value=message)

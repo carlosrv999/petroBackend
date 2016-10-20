@@ -35,7 +35,7 @@ module.exports = function(app){
 
 	})
 
-
+	
 
 	router.get('/borrarRegistro', function(req,res){
 		var id = req.query.idestacion;
@@ -156,8 +156,75 @@ module.exports = function(app){
 		});
 
 	})
+	
+	router.get('/modificarEstacion', function(req,res){
+		/*var myString = "          ";
+		var myString2 = myString.trim();
+		console.log(""+myString.trim()+"");
+		if(myString2 == ''){
+			console.log('string vacio');
+		}*/
+		return res.render('idEstacionQuery');		
+	})
 
+	router.post('/auth/modificarEstacion', function(req,res){
+		var idEstacion = req.body.idEstacion;
+		Estacion.exists(idEstacion, function(err, exist){
+			if(exist){
+				console.log('existe');
+				return res.render('modify',{message:idEstacion});
+			} else {
+				console.log('no existe');
+				return res.render('idEstacionQuery');
+			}
+		})
+	})
 
+	router.post('/auth/modificarEstacion/modificar', function(req,res){
+		var nombre = req.body.nombre;
+		var latitud = req.body.latitud;
+		var longitud = req.body.longitud;
+		var idEst = req.body.idEstacion;
+		console.log(idEst);
+		if(nombre.trim() != ''){
+			Estacion.updateAll({
+				id:idEst }, 
+				{
+					nombre:nombre
+				}, function(err, info){
+					if(err) return console.log("error en update" , err);
+				})
+			
+		}
+		if(latitud.trim() != ''){
+			Estacion.updateAll({
+				id:idEst }, 
+				{
+					latitud:latitud
+				}, function(err, info){
+					if(err) return console.log("error en update" , err);
+				})
+			
+		}
+		if(longitud.trim() != ''){
+			Estacion.updateAll({
+				id:idEst }, 
+				{
+					longitud:longitud
+				}, function(err, info){
+					if(err) return console.log("error en update" , err);
+				})
+			
+		}
+		return res.render('exito');
+	})
+
+	router.get('/auth/modificarEstacion/exitoModificacion', function(req,res){
+		console.log('exito');
+	})
+	/*router.put('/modificarUsuario', function(req,res){
+
+	})/*
 	/*router.post('/crearProducto',function(req,res){
 		var nombre = req.body.nombre;
 		var 

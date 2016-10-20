@@ -1,0 +1,10 @@
+doctype html
+html
+  head
+  body
+    form(method='POST', action='/auth/login')
+      label nombreUsuario
+      input(type='text', name='userId')
+      label password
+      input(type='text', name='password')
+      button(type='submit') Enviar

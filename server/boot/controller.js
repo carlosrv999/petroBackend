@@ -3,8 +3,37 @@ module.exports = function(app){
 	var router = app.loopback.Router();
 	var Estacion = app.models.Estacion;
 	var Usuario = app.models.Usuario;
-
-	router.get('/estacion',function(req,res){
+	var session = false;
+	
+	router.get('/',function(req,res){
+		res.redirect('login');
+	})
+	router.get('/login', function(req,res){
+		return res.render('login');
+	});
+	
+	router.post('/auth/login', function(req,res){
+		var username = req.body.userId;
+		var password = req.body.password;
+		
+		Usuario.find({
+			where: {
+				username: username,
+				password: password
+			}
+		}, function(err, objResult_usuario){
+			console.log(objResult_usuario.username);
+			console.log(objResult_usuario);
+			if(err) res.sendStatus(404);
+			if(objResult_usuario.length == 0) return res.render('login');
+			if (objResult_usuario.length > 0) {
+                session = true;
+                return res.render('exito');
+            }
+		})
+	})
+	
+	/*router.get('/estacion',function(req,res){
 
 		var newEstacion = {
 			nombre: 'primeraEstacion',
@@ -20,7 +49,7 @@ module.exports = function(app){
 			console.log("objeto creado con exito :", obj);
 		})
 
-	})
+	})*/
 
 	router.get('/estaciones', function(req,res){
 
@@ -37,7 +66,7 @@ module.exports = function(app){
 
 	
 
-	router.get('/borrarRegistro', function(req,res){
+	/*router.get('/borrarRegistro', function(req,res){
 		var id = req.query.idestacion;
 		Estacion.destroyById(id, function(err){
 			if (err) return console.log("warak\n",err)
@@ -46,17 +75,17 @@ module.exports = function(app){
 			});
 			
 		})
-	})	
+	})	*/
 
 
-
+	/*
 	router.get('/borrarTodaEstacion', function(req,res){
 		Estacion.destroyAll();
 		return res.json({
 			data: 'registros eliminados'
 		});
 
-	})
+	})*/
 
 	router.get('/unaestacion',function(req,res){
 		var id = req.query.culo;
@@ -71,7 +100,8 @@ module.exports = function(app){
 
 
 	router.get('/crearEstacion',function(req,res){
-		return res.render('index');
+		if(session) return res.render('index');
+		else return res.redirect('login');
 	})
 
 
@@ -80,13 +110,13 @@ module.exports = function(app){
 		var nombre= req.body.nombre;
 		var latitud = req.body.latitud;
 		var longitud = req.body.longitud;
-		var userId = req.body.userId;
+		//var userId = req.body.userId;
 
 		var newEstacion = {
 			nombre: nombre,
 			latitud: latitud,
 			longitud: longitud,
-			userId: userId
+			userId: ''
 		}
 
 		Estacion.create(newEstacion,function(err,obj){
@@ -98,7 +128,9 @@ module.exports = function(app){
 
 	})
 
-
+	router.get('/crearUsuario', function(req,res){
+		return res.render('crearuser');
+	})
 
 	router.post('/crearUsuario',function(req,res){
 		var username = req.body.username;
@@ -108,7 +140,7 @@ module.exports = function(app){
 			username: username,
 			password: password
 		},function(err,obj){
-			if(err) return console.log("error usuatio", err);
+			if(err) return console.log("error usuario", err);
 			console.log("creado con exito : ", obj);
 			return res.json(obj);
 		})

@@ -1,0 +1,24 @@
+doctype html
+html
+  head
+    title Menu Principal
+    meta(charset='UTF-8')
+    meta(http-equiv="X-UA-Compatible" content="IE=edge,chrome=1")
+    meta(name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0")
+    script(src='http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js')
+    link(rel='stylesheet' type='text/css' href='../css/semantic.min.css')
+  body
+    //MENU
+    .ui.large.menu.top
+      .ui.container
+        a.item(href='/producto') Estaciones
+        a.item(href='/categoria') Productos
+      .rigth.menu
+        .item
+          .ui.icon.input
+            input(type='text' placeholder='search...')
+            i.search.icon
+        .item
+          a.ui.black.button(href='/salir') Salir
+    if message!=undefined
+    input(type='hidden' name='idEstacion' value=message)

@@ -1,3 +1,4 @@
+var _ = require("lodash");
 module.exports = function(app){
 
 	var router = app.loopback.Router();
@@ -6,17 +7,22 @@ module.exports = function(app){
 	var session = false;
 	
 	router.get('/',function(req,res){
-		res.redirect('login');
+		return res.redirect('homepage');
+	})
+	router.get('/homepage', function(req,res){
+		return res.render('homepage');
 	})
 	router.get('/login', function(req,res){
 		return res.render('login');
 	});
-	
+	router.get('/salir', function(req, res) {
+        session = false;
+        res.redirect('login');
+    })
 	router.post('/auth/login', function(req,res){
-		var username = req.body.userId;
-		var password = req.body.password;
-		
-		Usuario.find({
+		var username = req.body.form_email;
+		var password = req.body.form_password;
+		Usuario.findOne({
 			where: {
 				username: username,
 				password: password
@@ -24,15 +30,19 @@ module.exports = function(app){
 		}, function(err, objResult_usuario){
 			console.log(objResult_usuario.username);
 			console.log(objResult_usuario);
-			if(err) res.sendStatus(404);
+			console.log(objResult_usuario.id);
+			if(err) return res.sendStatus(404);
 			if(objResult_usuario.length == 0) return res.render('login');
-			if (objResult_usuario.length > 0) {
-                session = true;
-                return res.render('exito');
-            }
+            session = true;
+            return res.render('principal', {
+                message : objResult_usuario.id
+            });
 		})
 	})
-	
+	router.get('/principal', function(req, res) {
+        if (session) return res.render('principal');
+        else return res.redirect('login');
+    });
 	/*router.get('/estacion',function(req,res){
 
 		var newEstacion = {
@@ -133,7 +143,7 @@ module.exports = function(app){
 	})
 
 	router.post('/crearUsuario',function(req,res){
-		var username = req.body.username;
+		var username = req.body.email;
 		var password = req.body.password;
 
 		Usuario.create({

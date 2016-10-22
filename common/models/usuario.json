@@ -6,7 +6,7 @@
     "validateUpsert": true
   },
   "properties": {
-    "username": {
+    "email": {
       "type": "string"
     },
     "password": {
